@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% extends "base.html" %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+  {% block head %}
+  {% endblock head %}
+</head>
+<body>
+{% block content %}
+<form method="POST"> {%csrf_token %}
+{{ form.as_ul }}
+  <input type="submit" name="Submit"/>
+</form>
+{% endblock content %}
+
+</body>
+</html>
