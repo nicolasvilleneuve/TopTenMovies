@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
+from pygments import highlight
 
 # Create your models here.
 class Movie(models.Model):
@@ -14,3 +17,6 @@ class Movie(models.Model):
 
     def get_absolute_url(self):
         return reverse("top_ten:movie-detail", kwargs={"id": self.id})
+
+    def __str__(self):
+        return self.title
