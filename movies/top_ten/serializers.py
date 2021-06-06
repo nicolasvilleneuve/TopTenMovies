@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from .models import Movie
+from django.contrib.auth.models import User
 
 class MovieSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Movie
         fields = ['id',
@@ -11,7 +13,8 @@ class MovieSerializer(serializers.ModelSerializer):
                   'rating',
                   'ranking',
                   'review',
-                  'img_url']
+                  'img_url',
+                  'owner']
 
     def create(self, validated_data):
         """Create and return a new 'Movie' instance, given the validated data"""
@@ -28,3 +31,10 @@ class MovieSerializer(serializers.ModelSerializer):
         instance.img_url = validated_data.get('img_url', instance.img_url)
         instance.save()
         return instance
+
+class UserSerializer(serializers.ModelSerializer):
+    movies = serializers.PrimaryKeyRelatedField(many=True, queryset=Movie.objects.all())
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'movie']

@@ -9,7 +9,7 @@
 </head>
 <body>
 {% block content %}
-<form method="POST, GET"> {% csrf_token %}
+<form method="POST"> {% csrf_token %}
 {{ form.as_ul }}
   <input type="submit" name="Submit"/>
 </form>

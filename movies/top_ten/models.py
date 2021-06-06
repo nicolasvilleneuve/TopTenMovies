@@ -13,10 +13,16 @@ class Movie(models.Model):
     rating = models.CharField(max_length=10)
     ranking = models.IntegerField()
     review = models.CharField(max_length=2000)
-    img_url = models.URLField()
+    img_url = models.URLField(max_length=20000)
+    owner = models.ForeignKey('auth.user', related_name='movies', on_delete=models.CASCADE)
 
-    def get_absolute_url(self):
-        return reverse("top_ten:movie-detail", kwargs={"id": self.id})
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        title = 'table' if self.title else False
+        options = {'title': self.title} if self.title else {}
+        formatter = HtmlFormatter(id=self.id, linenos=title,
+                                  full=True, **options)
+        super(Movie, self).save(*args, **kwargs)

@@ -6,18 +6,19 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Movie
 from .forms import MovieCreateForm
-from .serializers import MovieSerializer
+from .serializers import MovieSerializer, UserSerializer
 import random
 
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 # from rest_framework.parsers import JSONParser
 # from django.views.decorators.csrf import ensure_csrf_cookie
-# from rest_framework import mixins, generics
-
+from rest_framework import mixins, generics
+from django.contrib.auth.models import User
+from .permissions import IsOwnerOrReadOnly
 
 
 
@@ -37,10 +38,19 @@ from rest_framework.response import Response
 #     queryset = Movie.objects.all()
 #     serializer_class = MovieSerializer
 
+## User views ##
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 ##### CLASS BASED VIEWS ######
-# REQUIRE FOR CSRF TO BE DISABLED TO WORK, WILL THEREFORE NEVER BE ABLE TO DEOPLY TILL IT IS LEARNED HOW TO GIVE USERS EDIT PERIMSSIONS ###
 
 class MovieList(APIView):
     ''' List all movies, or create a new movie entry '''
@@ -55,6 +65,9 @@ class MovieList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class MovieDetail(APIView):
