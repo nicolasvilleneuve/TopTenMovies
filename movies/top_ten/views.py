@@ -19,7 +19,8 @@ from rest_framework.response import Response
 from rest_framework import mixins, generics
 from django.contrib.auth.models import User
 from .permissions import IsOwnerOrReadOnly
-
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
 
 
 # Create your views here.
@@ -49,6 +50,12 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'movies': reverse('movies-list', request=request, format=format)
+    })
 
 ##### CLASS BASED VIEWS ######
 

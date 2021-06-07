@@ -13,5 +13,6 @@ class MovieCreateForm(forms.ModelForm):
             'rating',
             'ranking',
             'review',
-            'img_url'
+            'img_url',
+            'owner'
         ]
