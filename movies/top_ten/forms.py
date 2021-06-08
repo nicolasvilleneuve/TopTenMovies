@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Movie
+from .models import Movie, User
 
 class MovieCreateForm(forms.ModelForm):
     class Meta:
@@ -15,4 +15,14 @@ class MovieCreateForm(forms.ModelForm):
             'review',
             'img_url',
             'owner'
+        ]
+
+class UserCreateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'email',
+            'password'
         ]

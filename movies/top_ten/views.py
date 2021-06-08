@@ -2,43 +2,27 @@ import json
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, JsonResponse, HttpResponse
-from django.core.exceptions import ObjectDoesNotExist
 
-from .models import Movie
-from .forms import MovieCreateForm
+from .models import Movie, User, FilesAdmin
+from .forms import MovieCreateForm, UserCreateForm
 from .serializers import MovieSerializer, UserSerializer
 import random
+import os
 
-from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-# from rest_framework.parsers import JSONParser
-# from django.views.decorators.csrf import ensure_csrf_cookie
+
 from rest_framework import mixins, generics
 from django.contrib.auth.models import User
+from django.conf import settings
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
-
+from django.http import HttpResponse
 
 # Create your views here.
-#### VIEWS FOR API FUNCTIONALITY ######
-#### USING MIXINS #####
-##### CLASS BASED VIEWS ######
-# class MovieList(generics.ListCreateAPIView):
-#     ''' List all movies, or create a new movie entry '''
-#     queryset = Movie.objects.all()
-#     serializer_class = MovieSerializer
-#
-#
-# class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
-#     ''' Retreive, update, or delete a movie instance '''
-#
-#     queryset = Movie.objects.all()
-#     serializer_class = MovieSerializer
-
 ## User views ##
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
@@ -50,12 +34,6 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'users': reverse('user-list', request=request, format=format),
-        'movies': reverse('movies-list', request=request, format=format)
-    })
 
 ##### CLASS BASED VIEWS ######
 
@@ -178,35 +156,41 @@ def random_view(request):
         "img_url": obj.img_url
     }
     return JsonResponse(context)
-#
-# def view_of_all(request):
-#     context = {}
-#     queryset = Movie.objects.all()
-#     for obj in queryset:
-#         context[obj.id] = {
-#             "title": obj.title,
-#             "year": obj.year,
-#             "description": obj.description,
-#             "rating": obj.rating,
-#             "ranking": obj.ranking,
-#             "review": obj.review,
-#             "img_url": obj.img_url
-#         }
-#     return JsonResponse(context)
-#
-# def search(request):
-#     if 'q' in request.GET:
-#         id = request.GET['q']
-#         obj = Movie.objects.get(id=id)
-#
+
+def register_user(request):
+    form = UserCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = UserCreateForm()
+        return redirect("../secrets/")
+    context = {
+        "form": form
+    }
+    return render(request, 'movies/register.html', context)
+
+def secrets_view(request):
+    context = {
+        'file': FilesAdmin.objects.all()
+    }
+    return render(request, 'movies/secrets.html', context)
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type='application/adminupload')
+            response['Content-Disposition'] = 'inline;filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+
+
+# def login(request):
+#     form = UserCreateForm(request.POST or None)
+#     if form.username in User.objects.all()
+#         form.save()
+#         form = UserCreateForm()
+#         return redirect("../secrets/")
 #     context = {
-#         "title": obj.title,
-#         "year": obj.year,
-#         "description": obj.description,
-#         "rating": obj.rating,
-#         "ranking": obj.ranking,
-#         "review": obj.review,
-#         "img_url": obj.img_url
+#         "form": form
 #     }
-#
-#     return JsonResponse(context)
+#     return render(request, 'movies/register.html', context)
