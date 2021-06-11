@@ -1,6 +1,9 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
-from .models import Movie, User
+from .models import Movie
+
 
 class MovieCreateForm(forms.ModelForm):
     class Meta:
@@ -17,12 +20,13 @@ class MovieCreateForm(forms.ModelForm):
             'owner'
         ]
 
-class UserCreateForm(forms.ModelForm):
+class UserCreateForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            'id',
             'username',
             'email',
-            'password'
+            'password1',
+            'password2'
         ]
+

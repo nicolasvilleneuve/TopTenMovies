@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, JsonResponse, HttpResponse
 
-from .models import Movie, User, FilesAdmin
+from .models import Movie, FilesAdmin
 from .forms import MovieCreateForm, UserCreateForm
 from .serializers import MovieSerializer, UserSerializer
 import random
@@ -21,6 +21,7 @@ from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 ## User views ##
@@ -158,15 +159,15 @@ def random_view(request):
     return JsonResponse(context)
 
 def register_user(request):
-    form = UserCreateForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        form = UserCreateForm()
-        return redirect("../secrets/")
-    context = {
-        "form": form
-    }
+    form = UserCreateForm()
+    if request.method == "POST":
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("../secrets/")
+    context = {'form': form}
     return render(request, 'movies/register.html', context)
+
 
 def secrets_view(request):
     context = {

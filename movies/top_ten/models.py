@@ -3,6 +3,7 @@ from django.urls import reverse
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 from pygments import highlight
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your models here.
 class Movie(models.Model):
@@ -27,11 +28,9 @@ class Movie(models.Model):
                                   full=True, **options)
         super(Movie, self).save(*args, **kwargs)
 
-class User(models.Model):
-    id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=50)
-    email = models.EmailField()
-    password = models.CharField(max_length=50)
+# class User(models.Model):
+#     username = models.username
+
 
 class FilesAdmin(models.Model):
     adminupload = models.FileField(upload_to='media')
