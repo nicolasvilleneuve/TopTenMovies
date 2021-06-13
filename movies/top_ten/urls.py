@@ -6,7 +6,7 @@ from django.conf.urls import url
 from django.views.static import serve
 
 from .views import movie_create_view, movie_detail_view, top_ten_view, movie_update_view, movie_delete_view, random_view, \
-    MovieList, MovieDetail, UserDetail, UserList, register_user, secrets_view
+    MovieList, MovieDetail, UserDetail, UserList, register_user, secrets_view, loginPage, logout_user
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
@@ -21,6 +21,8 @@ urlpatterns = [
     path('users/', UserList.as_view(), name='user-list'),
     path('users/<int:pk>', UserDetail.as_view(), name='user-detail'),
     path('register/', register_user, name='register-user'),
+    path('login/', loginPage, name='login'),
+    path('logout/', logout_user, name='logout'),
     path('secrets/', secrets_view, name='secret-view'),
     url(r'^download/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 

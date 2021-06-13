@@ -22,6 +22,11 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 ## User views ##
@@ -164,11 +169,13 @@ def register_user(request):
         form = UserCreateForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("../secrets/")
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
+            return redirect("login")
     context = {'form': form}
     return render(request, 'movies/register.html', context)
 
-
+@login_required(login_url='login')
 def secrets_view(request):
     context = {
         'file': FilesAdmin.objects.all()
@@ -185,13 +192,23 @@ def download(request, path):
     raise Http404
 
 
-# def login(request):
-#     form = UserCreateForm(request.POST or None)
-#     if form.username in User.objects.all()
-#         form.save()
-#         form = UserCreateForm()
-#         return redirect("../secrets/")
-#     context = {
-#         "form": form
-#     }
-#     return render(request, 'movies/register.html', context)
+def loginPage(request):
+
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('secret-view')
+        else:
+            messages.info(request, 'Username Or Password is incorrect')
+
+    context = {}
+    return render(request, 'movies/login.html', context)
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

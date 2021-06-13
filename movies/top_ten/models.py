@@ -28,8 +28,6 @@ class Movie(models.Model):
                                   full=True, **options)
         super(Movie, self).save(*args, **kwargs)
 
-# class User(models.Model):
-#     username = models.username
 
 
 class FilesAdmin(models.Model):
@@ -38,3 +36,6 @@ class FilesAdmin(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# class User()
