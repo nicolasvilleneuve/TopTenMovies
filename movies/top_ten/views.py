@@ -164,16 +164,19 @@ def random_view(request):
     return JsonResponse(context)
 
 def register_user(request):
-    form = UserCreateForm()
-    if request.method == "POST":
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
-            return redirect("login")
-    context = {'form': form}
-    return render(request, 'movies/register.html', context)
+    if request.user.is_authenticated:
+        return redirect('top-ten')
+    else:
+        form = UserCreateForm()
+        if request.method == "POST":
+            form = UserCreateForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + user)
+                return redirect("login")
+        context = {'form': form}
+        return render(request, 'movies/register.html', context)
 
 @login_required(login_url='login')
 def secrets_view(request):
@@ -193,21 +196,24 @@ def download(request, path):
 
 
 def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('top-ten')
 
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    else:
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('secret-view')
-        else:
-            messages.info(request, 'Username Or Password is incorrect')
+            if user is not None:
+                login(request, user)
+                return redirect('secret-view')
+            else:
+                messages.info(request, 'Username Or Password is incorrect')
 
-    context = {}
-    return render(request, 'movies/login.html', context)
+        context = {}
+        return render(request, 'movies/login.html', context)
 
 def logout_user(request):
     logout(request)
