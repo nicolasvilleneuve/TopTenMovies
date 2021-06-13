@@ -16,7 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from rest_framework import mixins, generics
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.conf import settings
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
@@ -166,27 +166,6 @@ def random_view(request):
     }
     return JsonResponse(context)
 
-@unauthenticated_user
-def register_user(request):
-    form = UserCreateForm()
-    if request.method == "POST":
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
-            return redirect("login")
-    context = {'form': form}
-    return render(request, 'movies/register.html', context)
-
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admins'])
-def secrets_view(request):
-    context = {
-        'file': FilesAdmin.objects.all()
-    }
-    return render(request, 'movies/secrets.html', context)
-
 def download(request, path):
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     if os.path.exists(file_path):
@@ -207,12 +186,38 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('secret-view')
+            return redirect('top-ten')
         else:
             messages.info(request, 'Username Or Password is incorrect')
 
     context = {}
     return render(request, 'movies/login.html', context)
+
+@unauthenticated_user
+def register_user(request):
+    form = UserCreateForm()
+    if request.method == "POST":
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+
+            group = Group.objects.get(name='customers')
+            user.groups.add(group)
+
+            messages.success(request, 'Account was created for ' + username)
+            return redirect("login")
+    context = {'form': form}
+    return render(request, 'movies/register.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admins'])
+def secrets_view(request):
+    context = {
+        'file': FilesAdmin.objects.all()
+    }
+    return render(request, 'movies/secrets.html', context)
+
 
 def logout_user(request):
     logout(request)

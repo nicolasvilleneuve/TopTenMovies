@@ -24,12 +24,24 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'top-ten' %}">Home</a>
         </li>
+          {% if request.user.is_staff %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'secret-view' %}">Hello, {{request.user}} </a>
+          <a class="nav-link active" aria-current="page" href="{% url 'secret-view' %}">Secret Page</a>
         </li>
+          {% else %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'top-ten' %}">Hello, {{request.user}}</a>
+        </li>
+          {% endif %}
+          {% if request.user.is_authenticated %}
         <li>
             <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
         </li>
+          {% else %}
+          <li>
+            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+        </li>
+          {% endif %}
       </ul>
     </div>
   </div>
