@@ -210,8 +210,8 @@ def register_user(request):
     context = {'form': form}
     return render(request, 'movies/register.html', context)
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admins'])
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["admins"])
 def secrets_view(request):
     context = {
         'file': FilesAdmin.objects.all()
