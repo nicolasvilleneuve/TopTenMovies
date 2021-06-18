@@ -221,4 +221,5 @@ def secrets_view(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect("login")
+
