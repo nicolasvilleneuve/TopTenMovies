@@ -111,9 +111,9 @@ def movie_create_view(request):
 
 def top_ten_view(request):
     queryset = Movie.objects.all()
-    # ordered_queryset = queryset.order_by('review')
+    ordered_queryset = queryset.order_by('ranking')
     context = {
-        "object_list": queryset
+        "object_list": ordered_queryset
     }
     return render(request, "movies/top_ten.html", context)
 
@@ -127,22 +127,26 @@ def movie_detail_view(request, id):
     }
     return render(request, "movies/movie_detail.html", context)
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["admins"])
 def movie_update_view(request, id):
     obj = get_object_or_404(Movie, id=id)
     form = MovieCreateForm(request.POST or None, instance=obj)
     if form.is_valid():
         form.save()
+        return redirect('top-ten')
     context = {
         "form": form
     }
     return render(request, "movies/movie_create.html", context)
 
-
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["admins"])
 def movie_delete_view(request, id):
     obj = get_object_or_404(Movie, id=id)
     if request.method == "POST":
         obj.delete()
-        return redirect('../../')
+        return redirect('top-ten')
     context = {
         "object": obj
     }
