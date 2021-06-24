@@ -2,6 +2,7 @@ body {
     margin: 0;
     text-align: center;
     align: center;
+    background-color: #f0efe6;
 }
 
 p {
@@ -51,7 +52,7 @@ body, html {
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #74cfbf;
+			background: #CB4C4E;
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -74,7 +75,7 @@ body, html {
 
 .login_btn {
 			width: 100%;
-			background: #33ccff !important;
+			background: #89cff0 !important;
 			color: white !important;
 		}
 .login_btn:focus {
@@ -106,8 +107,20 @@ body, html {
 		}
 
 .card-img-top {
-    width: 40rem;
-    height: 40rem;
+    width: 50%;
+    height: 50%;
     object-fit: contain;
+    margin: auto;
 }
 
+.card {
+    background-color: #f0efe6;
+}
+
+.card-body {
+    background-color: #f0efe6;
+}
+
+.navbar {
+    background: #CB4C4E;
+}
