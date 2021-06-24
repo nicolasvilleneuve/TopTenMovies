@@ -29,16 +29,38 @@
                 </div>
                 <div class="card-back bg-white">
                     <div class="card-body">
-                        <p class="card-title"> {{ film.title }} ({{ film.year }}) </p>
-                        <p class="card-text"> {{ film.rating }} </p>
-                        <p class="card-text"> {{ film.review }} </p>
-                        <p class="card-text"> {{ film.description }} </p>
                         <div class="row">
-                            <div class="col-lg-3 col-md-4 col-sm-4" style="margin: auto;">
-                        <a type="button" class="btn btn-primary" href="{{ film.id }}/update/">Update</a>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <p class="card-title"> {{ film.title }} ({{ film.year }}) </p>
                             </div>
-                            <div class="col-lg-3 col-md-4 col-sm-4" style="margin: auto;">
-                        <a type="button" class="btn btn-danger" href="{{ film.id }}/delete/">Delete</a>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="margin: auto;">
+                                <p class="card-text"> {{ film.rating }} </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="margin: auto;">
+                                <p class="card-text"> {{ film.review }} </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <p class="card-text"> {{ film.description }} </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <a type="button" class="btn btn-primary" href="{{ film.id }}/update/">Update</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <a type="button" class="btn btn-danger" href="{{ film.id }}/delete/">Delete</a>
                             </div>
                         </div>
                     </div>

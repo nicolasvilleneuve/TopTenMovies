@@ -2,13 +2,15 @@ body {
     margin: 0;
     text-align: center;
     align: center;
-    background-color: red;
 }
 
 p {
     text-align: center;
 }
 
+div {
+    margin: auto;
+}
 /* flip card */
 .card-flip > div {
   backface-visibility: hidden;
@@ -106,5 +108,6 @@ body, html {
 .card-img-top {
     width: 40rem;
     height: 40rem;
-    object-fit: cover;
+    object-fit: contain;
 }
+
