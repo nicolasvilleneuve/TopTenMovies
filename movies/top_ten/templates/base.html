@@ -30,7 +30,7 @@
         </li>
           {% else %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'top-ten' %}">Hello, {{request.user}}</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'top-ten' %}">Hello, {{ request.user }}</a>
         </li>
           {% endif %}
           {% if request.user.is_authenticated %}
