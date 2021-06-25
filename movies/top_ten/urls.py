@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from django.views.static import serve
 
-from .views import movie_create_view, movie_detail_view, top_ten_view, movie_update_view, movie_delete_view, random_view, \
+from .views import movie_create_view, top_ten_view, movie_update_view, movie_delete_view, random_view, \
     MovieList, MovieDetail, UserDetail, UserList, register_user, secrets_view, loginPage, logout_user
 from rest_framework.urlpatterns import format_suffix_patterns
 
