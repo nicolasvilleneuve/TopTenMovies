@@ -15,14 +15,11 @@ from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from rest_framework import mixins, generics
+from rest_framework import generics
 from django.contrib.auth.models import User, Group
 from django.conf import settings
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.decorators import api_view
-from rest_framework.reverse import reverse
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
@@ -30,6 +27,7 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+
 ## User views ##
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
