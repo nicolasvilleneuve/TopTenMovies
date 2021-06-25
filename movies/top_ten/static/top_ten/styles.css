@@ -118,6 +118,15 @@ body, html {
     background-color: #f0efe6;
 }
 
+.card-for-details {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+    margin: auto;
+    padding-left: 10rem;
+    border: 0px;
+}
+
 .card-body {
     background-color: #f0efe6;
 }
