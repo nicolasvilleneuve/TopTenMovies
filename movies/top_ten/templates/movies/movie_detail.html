@@ -7,13 +7,18 @@
 </head>
 <body>
 {% block content %}
+<br>
 
-<ul>
-    <li> {{ object.id }} </li>
-    <li> {{ object.title }} </li>
-    <li> {{ object.year }} </li>
-    <li> {{ object.description }} </li>
-</ul>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <img src="{{ object.img_url }}">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+            <p> Chelsea's Rank: {{ object.ranking }} </p>
+            <p> <strong> {{ object.title }} ({{ object.year }}) </strong> </p>
+            <p> {{ object.description }} </p>
+    </div>
+</div>
 
 {% endblock content %}
 </body>
