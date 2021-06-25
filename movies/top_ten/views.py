@@ -115,6 +115,16 @@ def top_ten_view(request):
     }
     return render(request, "movies/top_ten.html", context)
 
+def movie_detail_view(request, id):
+    try:
+        obj = Movie.objects.get(id=id)
+    except Movie.DoesNotExist:
+        raise Http404
+    context = {
+        "object": obj,
+    }
+    return render(request, "movies/movie_detail.html", context)
+
 @login_required(login_url="login")
 @allowed_users(allowed_roles=["admins"])
 def movie_update_view(request, id):

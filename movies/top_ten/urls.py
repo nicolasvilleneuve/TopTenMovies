@@ -5,14 +5,14 @@ from django.conf.urls.static import static
 from django.conf.urls import url
 from django.views.static import serve
 
-from .views import movie_create_view, top_ten_view, movie_update_view, movie_delete_view, random_view, \
+from .views import movie_create_view, movie_detail_view, top_ten_view, movie_update_view, movie_delete_view, random_view, \
     MovieList, MovieDetail, UserDetail, UserList, register_user, secrets_view, loginPage, logout_user
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('', top_ten_view, name="top-ten"),
     path('create/', movie_create_view, name="create-entry"),
-    path('<int:id>/detail/', movie_detail_view, name="movie-detail"),
+    path('<int:ranking>/detail/', movie_detail_view, name="movie-detail"),
     path('<int:id>/update/', movie_update_view, name="movie-update"),
     path('<int:id>/delete/', movie_delete_view, name='movie-delete'),
     path('random/', random_view, name='random-movie'),
