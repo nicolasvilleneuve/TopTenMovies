@@ -3,18 +3,18 @@
 <head>
     {% extends "base.html" %}
     <meta charset="UTF-8">
-    <title>{% block title %} {{ obj.title }} {% endblock title %}</title>
+    <title>{% block title %} {{ object.title }} {% endblock title %}</title>
 </head>
 <body>
 {% block content %}
 
-<!--<ul>-->
-<!--    <li> {{ obj.id }} </li>-->
-<!--    <li> {{ obj.title }} </li>-->
-<!--    <li> {{ obj.year }} </li>-->
-<!--    <li> {{ obj.description }} </li>-->
-<!--</ul>-->
-{{ jason }}
+<ul>
+    <li> {{ object.id }} </li>
+    <li> {{ object.title }} </li>
+    <li> {{ object.year }} </li>
+    <li> {{ object.description }} </li>
+</ul>
+
 {% endblock content %}
 </body>
 </html>

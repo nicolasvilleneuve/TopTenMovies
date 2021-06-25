@@ -115,9 +115,9 @@ def top_ten_view(request):
     }
     return render(request, "movies/top_ten.html", context)
 
-def movie_detail_view(request, id):
+def movie_detail_view(request, ranking):
     try:
-        obj = Movie.objects.get(id=id)
+        obj = Movie.objects.get(ranking=ranking)
     except Movie.DoesNotExist:
         raise Http404
     context = {
