@@ -62,32 +62,32 @@ class MovieList(APIView):
 
 class MovieDetail(APIView):
     ''' Retreive, update, or delete a movie instance '''
-    def get_object(self, id):
+    def get_object(self, ranking):
         try:
-            return Movie.objects.get(id=id)
+            return Movie.objects.get(ranking=ranking)
         except Movie.DoesNotExist:
             raise Http404
 
-    def get(self, request, id, format=None):
-        movie = self.get_object(id)
+    def get(self, request, ranking, format=None):
+        movie = self.get_object(ranking)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
-    def put(self, request, id, format=None):
-        movie = self.get_object(id)
+    def put(self, request, ranking, format=None):
+        movie = self.get_object(ranking)
         serializer = MovieSerializer(movie, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id, format=None):
-        snippet = self.get_object(id)
+    def delete(self, request, ranking, format=None):
+        snippet = self.get_object(ranking)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def patch(self, request, id):
-        obj_to_patch = self.get_object(id)
+    def patch(self, request, ranking):
+        obj_to_patch = self.get_object(ranking)
         serializer = MovieSerializer(obj_to_patch, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -114,16 +114,6 @@ def top_ten_view(request):
         "object_list": ordered_queryset
     }
     return render(request, "movies/top_ten.html", context)
-
-def movie_detail_view(request, id):
-    try:
-        obj = Movie.objects.get(id=id)
-    except Movie.DoesNotExist:
-        raise Http404
-    context = {
-        "object": obj,
-    }
-    return render(request, "movies/movie_detail.html", context)
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=["admins"])
