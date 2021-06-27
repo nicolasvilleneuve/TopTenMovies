@@ -157,7 +157,7 @@ body, html {
 .navbar .nav-item:active .nav-link,
 .navbar .nav-item:focus .nav-link,
 .navbar .nav-item:hover .nav-link {
-    color: pink;
+    color: #f7ba5b !important;
 }
 
 /* for dropdowns only */
