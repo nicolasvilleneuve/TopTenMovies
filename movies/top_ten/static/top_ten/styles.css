@@ -131,6 +131,55 @@ body, html {
     background-color: #f0efe6;
 }
 
+/* change the background color */
 .navbar {
     background: #CB4C4E;
+}
+
+/* change the brand and text color */
+.navbar .navbar-brand,
+.navbar .navbar-text {
+    color: #f0efe6;
+}
+
+/* change the link color */
+.navbar .navbar-nav .nav-link {
+    color: #f0efe6;
+}
+
+/* change the color of active or hovered links */
+.navbar .nav-item:active .nav-link,
+.navbar .nav-item:focus .nav-link,
+.navbar .nav-item:hover .nav-link {
+    color: pink;
+}
+
+/* for dropdowns only */
+.navbar .navbar-nav .dropdown-menu {
+    background-color: #f0efe6;
+}
+
+/* dropdown item text color */
+.navbar .navbar-nav .dropdown-item {
+    color: #f0efe6;
+}
+
+/* dropdown item hover or focus */
+.navbar .navbar-nav .dropdown-item:hover,
+.navbar .navbar-nav .dropdown-item:focus {
+    color: #f0efe6;
+}
+
+.navbar-toggler {
+    width: 47px;
+    height: 34px;
+    background-color: #CB4C4E;
+}
+
+.navbar-toggler .line {
+    width: 100%;
+    float: left;
+    height: 2px;
+    background-color: #f0efe6;
+    margin-bottom: 5px;
 }
