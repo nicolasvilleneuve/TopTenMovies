@@ -12,6 +12,11 @@ p {
 div {
     margin: auto;
 }
+
+a {
+    color: #f7ba5b;
+}
+
 /* flip card */
 .card-flip > div {
   backface-visibility: hidden;
@@ -71,11 +76,12 @@ body, html {
 
 #form-title{
 			color: #fff;
+			margin: auto;
 		}
 
 .login_btn {
 			width: 100%;
-			background: #89cff0 !important;
+			background: #f7ba5b !important;
 			color: white !important;
 		}
 
