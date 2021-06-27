@@ -156,7 +156,8 @@ body, html {
 /* change the color of active or hovered links */
 .navbar .nav-item:active .nav-link,
 .navbar .nav-item:focus .nav-link,
-.navbar .nav-item:hover .nav-link {
+.navbar .nav-item:hover .nav-link,
+.navbar .navbar-brand:hover {
     color: #f7ba5b !important;
 }
 
