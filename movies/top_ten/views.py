@@ -1,7 +1,7 @@
 import json
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404, JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse
 
 from .models import Movie, FilesAdmin
 from .forms import MovieCreateForm, UserCreateForm
