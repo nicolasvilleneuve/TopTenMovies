@@ -1,5 +1,3 @@
-import json
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, JsonResponse
 
@@ -9,7 +7,6 @@ from .serializers import MovieSerializer, UserSerializer
 from .decorators import unauthenticated_user, allowed_users
 import random
 import os
-
 
 from rest_framework import status, permissions
 from rest_framework.views import APIView
